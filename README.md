@@ -2,6 +2,12 @@
 
 **Less Waste. More Impact.**
 
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
 RescuBite is an AI-powered platform helping Tunisian restaurants reduce food waste through demand prediction, dynamic discounting of surplus meals, and real-time redistribution to nearby consumers and partner charities.
 
 ---
@@ -9,8 +15,11 @@ RescuBite is an AI-powered platform helping Tunisian restaurants reduce food was
 ## Quick Start
 
 ```bash
+git clone https://github.com/chayma-saad/RescuBite.git
+cd RescuBite
 npm install
-npm run db:seed
+npm run db:push   # create the SQLite database
+npm run db:seed   # load demo restaurants, bags and users
 npm run dev
 ```
 
@@ -41,7 +50,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Feature Walkthrough for Judges
+## Features
 
 ### 1. Landing Page (`/`)
 - Animated gradient hero with bold headline
@@ -126,3 +135,11 @@ components/           – React components by role
 lib/                  – prediction.ts, auth.ts, db.ts, utils.ts
 prisma/               – schema.prisma + seed.ts
 ```
+
+---
+
+## License
+
+Released under the [MIT License](LICENSE).
+
+👩‍💻 Made by [Chaima Saad](https://github.com/chayma-saad)
