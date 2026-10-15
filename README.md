@@ -2,6 +2,7 @@
 
 **Less Waste. More Impact.**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-rescubite.onrender.com-16a34a?style=for-the-badge&logo=render&logoColor=white)](https://rescubite.onrender.com)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
@@ -28,6 +29,8 @@ Open [http://localhost:3000](http://localhost:3000)
 ---
 
 ## Demo Credentials
+
+> 🌐 **Try it live:** https://rescubite.onrender.com — hosted on Render's free tier, so the first visit after a period of inactivity can take ~50 s while the server wakes up. Demo data resets on each restart.
 
 | Role       | Email                   | Password  |
 |------------|-------------------------|-----------|
