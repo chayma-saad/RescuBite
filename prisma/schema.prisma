@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Role: RESTAURANT | CONSUMER | CHARITY
+// BagStatus: AVAILABLE | RESERVED | COMPLETED | EXPIRED
+// BagType: SALE | DONATION
+
+model User {
+  id             String        @id @default(cuid())
+  email          String        @unique
+  password       String
+  name           String
+  role           String        // RESTAURANT | CONSUMER | CHARITY
+  createdAt      DateTime      @default(now())
+  restaurant     Restaurant?
+  consumer       Consumer?
+  charityProfile Charity?
+}
+
+model Restaurant {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id])
+  name         String
+  address      String
+  lat          Float
+  lng          Float
+  cuisine      String
+  phone        String?
+  description  String?
+  imageUrl     String?
+  menuItems    MenuItem[]
+  salesRecords SalesRecord[]
+  rescueBags   RescueBag[]
+  donations    Donation[]
+  createdAt    DateTime      @default(now())
+}
+
+model MenuItem {
+  id              String        @id @default(cuid())
+  restaurantId    String
+  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id])
+  name            String
+  description     String?
+  category        String?
+  typicalPortions Int           @default(20)
+  costPerPortion  Float
+  pricePerPortion Float
+  active          Boolean       @default(true)
+  salesRecords    SalesRecord[]
+  createdAt       DateTime      @default(now())
+}
+
+model SalesRecord {
+  id           String     @id @default(cuid())
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  menuItemId   String
+  menuItem     MenuItem   @relation(fields: [menuItemId], references: [id])
+  date         DateTime
+  prepared     Int
+  sold         Int
+  wasted       Int
+  weather      String     @default("sunny")
+  createdAt    DateTime   @default(now())
+}
+
+model RescueBag {
+  id              String        @id @default(cuid())
+  restaurantId    String
+  restaurant      Restaurant    @relation(fields: [restaurantId], references: [id])
+  title           String
+  description     String?
+  originalPrice   Float
+  discountedPrice Float
+  quantity        Int
+  remainingQty    Int
+  status          String        @default("AVAILABLE") // AVAILABLE | RESERVED | COMPLETED | EXPIRED
+  type            String        @default("SALE")      // SALE | DONATION
+  pickupStart     DateTime
+  pickupEnd       DateTime
+  imageUrl        String?
+  reservations    Reservation[]
+  donations       Donation[]
+  createdAt       DateTime      @default(now())
+}
+
+model Consumer {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id])
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+}
+
+model Reservation {
+  id          String    @id @default(cuid())
+  consumerId  String
+  consumer    Consumer  @relation(fields: [consumerId], references: [id])
+  rescueBagId String
+  rescueBag   RescueBag @relation(fields: [rescueBagId], references: [id])
+  quantity    Int       @default(1)
+  pickupCode  String    @unique
+  status      String    @default("PENDING") // PENDING | CONFIRMED | COMPLETED | CANCELLED
+  createdAt   DateTime  @default(now())
+}
+
+model Charity {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  name      String
+  address   String?
+  phone     String?
+  donations Donation[]
+  createdAt DateTime   @default(now())
+}
+
+model Donation {
+  id           String     @id @default(cuid())
+  charityId    String
+  charity      Charity    @relation(fields: [charityId], references: [id])
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  rescueBagId  String
+  rescueBag    RescueBag  @relation(fields: [rescueBagId], references: [id])
+  quantity     Int
+  pickupCode   String     @unique
+  status       String     @default("PENDING") // PENDING | CONFIRMED | COMPLETED
+  createdAt    DateTime   @default(now())
+}
+
+model ImpactLog {
+  id           String   @id @default(cuid())
+  restaurantId String
+  date         DateTime
+  kgRescued    Float
+  mealsRescued Int
+  revenueTND   Float
+  mealsDonated Int
+  co2Avoided   Float
+  createdAt    DateTime @default(now())
+}

@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RescuBite 🌿
 
-## Getting Started
+**Less Waste. More Impact.**
 
-First, run the development server:
+RescuBite is an AI-powered platform helping Tunisian restaurants reduce food waste through demand prediction, dynamic discounting of surplus meals, and real-time redistribution to nearby consumers and partner charities.
+
+---
+
+## Quick Start
 
 ```bash
+npm install
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Demo Credentials
 
-## Learn More
+| Role       | Email                   | Password  |
+|------------|-------------------------|-----------|
+| Restaurant | demo@restaurant.com     | demo1234  |
+| Consumer   | demo@user.com           | demo1234  |
+| Charity    | demo@charity.com        | demo1234  |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Framework**: Next.js 16 (App Router) + TypeScript
+- **Styling**: Tailwind CSS 4
+- **Database**: SQLite + Prisma ORM 5
+- **Auth**: NextAuth.js v4 (credentials provider)
+- **AI/Prediction**: Deterministic simulation in `lib/prediction.ts` — no external API required
+- **Charts**: Recharts
+- **Maps**: Leaflet + react-leaflet (no API key needed)
+- **Icons**: lucide-react
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Feature Walkthrough for Judges
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 1. Landing Page (`/`)
+- Animated gradient hero with bold headline
+- Three role CTAs (Restaurant / Consumer / Charity)
+- Animated impact counters (intersection observer)
+- "How it works" 3-step explainer
+- Live mock forecast card
+
+### 2. Restaurant Dashboard (`/restaurant`)
+- **AI Demand Forecast**: Per-item daily prediction with:
+  - 14-day historical average
+  - Day-of-week factor (Mon=0.85x to Sat=1.25x)
+  - Weather factor (sunny=1.1x, rainy=0.75x)
+  - 3-day trend vs 14-day baseline
+  - Confidence score based on historical variance
+  - "Why?" tooltip showing every factor
+
+### 3. Menu Management (`/restaurant/menu`)
+- Full CRUD for menu items
+- Cost, price, margin display
+
+### 4. Surplus Logging (`/restaurant/surplus`)
+- Log prepared vs sold per item
+- Auto-create Rescue Bags at 50% off
+- Toggle to donate to charity instead
+
+### 5. Consumer Browse (`/browse`)
+- Grid of live Rescue Bags across Tunis
+- Leaflet map with color-coded pins
+- Filters: search, cuisine, donations-only
+
+### 6. Bag Detail + Reservation (`/bag/[id]`)
+- One-click reserve → pickup code
+- Pay at pickup (no payment integration)
+
+### 7. My Rescues (`/reservations`)
+- Upcoming pickups with codes
+- Personal impact stats
+
+### 8. Charity Feed (`/charity`)
+- Live donation feed
+- One-tap claim flow
+
+### 9. Impact Charts (`/restaurant/impact`)
+- Food rescued per week (area chart)
+- Revenue from surplus (bar chart)
+
+### 10. Forecast History (`/restaurant/history`)
+- Predicted vs Actual line chart
+- Daily accuracy bar chart
+
+---
+
+## AI Prediction Details
+
+The engine in `lib/prediction.ts` runs offline, no external API:
+
+```
+predicted = historicalAvg * dayOfWeekFactor * weatherFactor * trendFactor
+confidence = 1 - (stdDev/mean) * 0.8   (clamped to 40-98%)
+```
+
+Weather is seeded deterministically from the date. All factors are shown in the UI.
+
+---
+
+## What's Next
+
+1. **ML Model Upgrade** — Replace weighted average with Prophet/LSTM on real data
+2. **Payment Integration** — Stripe Connect for real transactions
+3. **Mobile App** — React Native for consumers
+4. **Push Notifications** — Alert consumers when bags appear nearby
+5. **Arabic/French Localization** — Strings centralized in `lib/i18n.ts`
+
+---
+
+## Project Structure
+
+```
+app/                  – Next.js App Router pages + API routes
+components/           – React components by role
+lib/                  – prediction.ts, auth.ts, db.ts, utils.ts
+prisma/               – schema.prisma + seed.ts
+```

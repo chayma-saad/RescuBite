@@ -1,0 +1,55 @@
+// Centralized strings for future translation support
+export const t = {
+  app: {
+    name: "RescuBite",
+    tagline: "Less Waste. More Impact.",
+    description: "AI-powered platform helping restaurants reduce food waste through smart prediction and community redistribution.",
+  },
+  roles: {
+    restaurant: "Restaurant",
+    consumer: "Consumer",
+    charity: "Charity / NGO",
+  },
+  nav: {
+    dashboard: "Dashboard",
+    menu: "Menu",
+    surplus: "Surplus",
+    history: "History",
+    impact: "Impact",
+    browse: "Browse Rescue Bags",
+    reservations: "My Rescues",
+    donations: "Donation Feed",
+    about: "About",
+    signIn: "Sign In",
+    signUp: "Sign Up",
+    signOut: "Sign Out",
+  },
+  forecast: {
+    title: "Today's AI Forecast",
+    predicted: "Predicted",
+    prepared: "Prepared",
+    recommended: "Recommended",
+    confidence: "Confidence",
+    why: "Why this prediction?",
+  },
+  bags: {
+    reserve: "Reserve Now",
+    claim: "Claim Donation",
+    pickup: "Pickup Window",
+    remaining: "remaining",
+    payAtPickup: "Pay at pickup",
+    pickupCode: "Pickup Code",
+  },
+  impact: {
+    kgRescued: "kg food rescued",
+    mealsRescued: "meals rescued",
+    mealsDonated: "meals donated",
+    co2Avoided: "kg CO₂ avoided",
+    tndEarned: "TND earned from surplus",
+  },
+  errors: {
+    notFound: "Not found",
+    unauthorized: "You need to sign in to access this page",
+    forbidden: "You don't have permission to access this page",
+  },
+} as const;
